@@ -1,0 +1,55 @@
+#importing numpy as np
+import numpy as np
+#importing pandas library for data analysis
+import pandas as pd
+#importing TensorFlow which is a high computation library for high performance computing
+import tensorflow as tf
+#importing tqdm for printing out a progress bar while the process executes
+from tqdm import tqdm
+#importing midi which is a helper library for the music files
+import midi_manipulation
+
+#here we will add 4 steps for music generation
+
+#using hyper parameters for step-1
+lowest_note = midi_manipulation.lowerBound
+highest_note = midi_manipulation.upperBound
+note_range = highest_note-lowest_note
+#this will be the number of time steps that we will create at a time
+num_timesteps = 15
+#setting the size of the visible layer
+n_visible = 2*note_range*num_timesteps
+#setting the size of the hidden layer
+n_hidden = 50
+#the number of training epochs that we will be running at a time
+#by going through the entire dataset
+num_epochs = 200
+#the number of training examples that we will send through the RBM at a time
+batch_size = 100
+#we will be setting the learning rate of our model
+lr = tf.constant(0.005, tf.float32)
+
+#here goes our step-2 for adding TensorFlow variables
+#the placeholder variable for keeping our data to a hold
+x = tf.placeholder(tf.float32, [None, n_visible], name="x")
+#Weight matrix that stores the edge weights
+W = tf.Variable(tf.random_normal([n_visible, n_hidden], 0.01), name="W")
+#setting up bias vector for the hidden layer
+bh = tf.Variable(tf.zeros([1, n_hidden], tf.float32, name="bv"))
+#setting up the bias vector for the visible layer
+bv = tf.Variable(tf.zeros([1, n_visible], tf.float32, name="bv"))
+
+#Step-3 is to implement the generative algorithm
+#the sample of x
+x_sample = gibbs_sample(1)
+#the sample of the hidden nodes in the neural network
+#starts from the visible state of x
+h = sample(tf.sigmoid(tf.matmul(x_sample, W) + bh))
+#next we will update the values of W, bh and bv that are in the TensorFlow variables
+size_bt = tf.cast(tf.shape(x)[0], tf.float32)
+W_adder = tf.mul(lr/size_bt, tf.sub(tf.matmul(tf.transpose(x), h), tf.matmul(tf.transpose(x_sample), h_sample)))
+bv_adder = tf.mul(lr/size_bt, tf.reduce_sum(tf.sub(x, x_sample), 0, True))
+bh_adder = tf.mul(lr/size_bt, tf.reduce_sum(tf.sub(h, h_sample), 0, True))
+
+#TensorFlow in action
+updt = [W.assign_add(W_adder), bv.assign_add(bv_adder), bh.assign_add(bh_adder)]
