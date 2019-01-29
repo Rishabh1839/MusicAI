@@ -1,9 +1,11 @@
+# just a simple introduction and providing a user with a small menu
 print("Welcome to Musical AI")
 print("Licensed and Created by: Rishabh Singh")
 print("Description of this program will be given to you in options")
 print("Please go ahead and select a number from 1-3 when asked to")
 
 
+# creating a menu
 def menu():
     print(30 * "-", "MENU", 30 * "-")
     print("\n1. What is a Musical AI?")
@@ -12,10 +14,44 @@ def menu():
     print(60 * "-")
 
 
+# once the user chooses their options it'll give them an answer to one of the choices
 loop = True
 while loop:
     menu()
     choice = input("Please Select your option!")
+
+    if choice == 1:
+        MusicalAI()
+    elif choice == 2:
+        purpose()
+    elif choice == 3:
+        create()
+        break
+    else:
+        print("Invalid Choice. Please Try Again!")
+        menu()
+exit()
+
+
+def MusicalAI():
+    print("Welcome to Musical AI, an AI that runs on Artificial Neural Network and in Python"
+          "which is a great language for AI generation. Here we've used some dependencies"
+          "which is a state in which one object uses a function of another object which allows"
+          "us to create everything that can be imagined. Musical AI uses the dependency to generate"
+          "short sequences of music with a Neural Network called Restricted Boltzman Machine. "
+          "It can learn a probability distribution over its set of inputs and is used for "
+          "deep learning networks. In short we will get to hear some music from this AI!")
+    menu()
+
+
+def purpose():
+    print("")
+    menu()
+
+
+def create():
+    print("")
+    menu()
 
 
 # importing numpy as np
