@@ -23,9 +23,13 @@ while True:
               "It can learn a probability distribution over its set of inputs and is used for "
               "deep learning networks. In short we will get to hear some music from this AI!")
     elif choice == 2:
-        print()
+        print("The purpose of this AI is to create music with a library that'll be provided to it,"
+              "which we can consider a dependency so the neural network can sync through it and generate music"
+              "with the help of out other dependencies that will be used further in the program. However,"
+              "this AI won't be able to do anything complex but we'll be able to hear some music generated"
+              "by this program.")
     elif choice == 3:
-        print()
+        print("")
     else:
         print("Invalid Choice. Please Try Again!")
         menu()
